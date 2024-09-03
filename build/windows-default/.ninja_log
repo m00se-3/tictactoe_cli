@@ -1,9 +1,0 @@
-# ninja log v6
-19	26	7470234915387722	clean	6dd091519ded1980
-25	711	7470183644931034	tictactoe_cli/CMakeFiles/tictactoe_cli.dir/tictactoe_cli.cpp.obj	ee1f4a1526df246c
-714	865	7470183651813446	tictactoe_cli/tictactoe_cli.exe	ec70bd62f4c9a3ba
-26	140	7470234937362671	build.ninja	3cffe94681f0a44
-19	712	7470241948389026	tictactoe_cli/CMakeFiles/tictactoe_cli.dir/tictactoe_cli.cpp.obj	28b19b6d0c15ecba
-713	811	7470241955316711	tictactoe_cli/tictactoe_cli.exe	ec70bd62f4c9a3ba
-19	619	7470243330504230	tictactoe_cli/CMakeFiles/tictactoe_cli.dir/tictactoe_cli.cpp.obj	28b19b6d0c15ecba
-620	717	7470243336515247	tictactoe_cli/tictactoe_cli.exe	ec70bd62f4c9a3ba
