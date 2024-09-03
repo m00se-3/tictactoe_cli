@@ -1,7 +1,6 @@
-﻿// tictactoe_cli.cpp : Defines the entry point for the application.
-//
-
-#include "tictactoe_cli.h"
+﻿#include "tictactoe_cli.h"
+#include <cstring>
+#include <span>
 
 void Board::draw() {
 	system(COMMAND);
@@ -121,12 +120,41 @@ int Board::convertCoord(int x, int y) {
 	return ny * boardWidth + nx;
 }
 
-int main()
+int main(int argc, const char** argv)
 {
 	Board board;
 	int playerTurn = -1;
 	bool gameOver = false;
 	std::string errorMsg;
+
+	if(argc > 1)
+	{
+		std::string* str = nullptr;
+
+		const auto args = std::span<const char*>{ argv, static_cast<size_t>(argc) };
+
+		for(auto a : args)
+		{
+			if(str != nullptr)
+			{
+				*str = a;
+				str = nullptr;
+			}
+
+			if(strcmp(a, "--player1") == 0)
+			{
+				str = &board.getPlayer(0).name;
+			}
+			else if (strcmp(a, "--player2") == 0)
+			{
+				str = &board.getPlayer(1).name;
+			}
+			else
+			{
+				str = nullptr;
+			}
+		}
+	}
 
 	while (!gameOver) {
 		std::string ix, iy;

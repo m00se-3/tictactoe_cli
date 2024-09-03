@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/CppProjects/tictactoe_cli/build/windows-default",
+  "command": "C:\\LLVM\\bin\\clang++.exe -DCOMMAND=\\\"cls\\\" -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o tictactoe_cli\\CMakeFiles\\tictactoe_cli.dir\\tictactoe_cli.cpp.obj -c C:\\CppProjects\\tictactoe_cli\\tictactoe_cli\\tictactoe_cli.cpp",
+  "file": "C:\\CppProjects\\tictactoe_cli\\tictactoe_cli\\tictactoe_cli.cpp",
+  "output": "tictactoe_cli\\CMakeFiles\\tictactoe_cli.dir\\tictactoe_cli.cpp.obj"
+}
+]

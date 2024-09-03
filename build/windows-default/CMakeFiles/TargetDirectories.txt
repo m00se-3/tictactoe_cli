@@ -1,0 +1,5 @@
+C:/CppProjects/tictactoe_cli/build/windows-default/CMakeFiles/edit_cache.dir
+C:/CppProjects/tictactoe_cli/build/windows-default/CMakeFiles/rebuild_cache.dir
+C:/CppProjects/tictactoe_cli/build/windows-default/tictactoe_cli/CMakeFiles/tictactoe_cli.dir
+C:/CppProjects/tictactoe_cli/build/windows-default/tictactoe_cli/CMakeFiles/edit_cache.dir
+C:/CppProjects/tictactoe_cli/build/windows-default/tictactoe_cli/CMakeFiles/rebuild_cache.dir
