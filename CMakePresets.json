@@ -13,10 +13,6 @@
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++",
         "Clear_Command": "clear"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Linux" ] },
-        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": { "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}" }
       }
     },
     {
@@ -31,10 +27,6 @@
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++",
         "Clear_Command": "clear"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "macOS" ] },
-        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": { "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}" }
       }
     },
     {
@@ -52,9 +44,9 @@
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++",
-        "Clear_Command": "cls"
-      },
-      "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
+        "Clear_Command": "cls",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      }
     }
   ]
 }

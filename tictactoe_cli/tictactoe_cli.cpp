@@ -121,12 +121,41 @@ int Board::convertCoord(int x, int y) {
 	return ny * boardWidth + nx;
 }
 
-int main()
+int main(int argc, const char** argv)
 {
 	Board board;
 	int playerTurn = -1;
 	bool gameOver = false;
 	std::string errorMsg;
+
+	if(argc > 1)
+	{
+		std::string* str = nullptr;
+
+		
+
+		for(int i = 1; i < argc; ++i)
+		{
+			if(str != nullptr)
+			{
+				*str = argv[i];
+				str = nullptr;
+			}
+
+			if(strcmp(argv[i], "--player1") == 0)
+			{
+				str = &board.getPlayer(0).name;
+			}
+			else if (strcmp(argv[i], "--player2") == 0)
+			{
+				str = &board.getPlayer(1).name;
+			}
+			else
+			{
+				str = nullptr;
+			}
+		}
+	}
 
 	while (!gameOver) {
 		std::string ix, iy;
