@@ -1,7 +1,7 @@
 ﻿// tictactoe_cli.cpp : Defines the entry point for the application.
 //
 
-#include "tictactoe_cli.h"
+#include "tictactoe_cli.hpp"
 
 void Board::draw() {
 	system(COMMAND);
