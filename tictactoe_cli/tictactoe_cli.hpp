@@ -1,7 +1,6 @@
 ﻿#ifndef TICTACTOE_H
 #define TICTACTOE_H
 
-#include <iostream>
 #include <string>
 
 struct Player {
@@ -36,6 +35,8 @@ public:
 	int convertCoord(int x, int y);
 
 };
+
+void runGame(int argc, const char** argv);
 
 
 #endif // !TICTACTOE_H

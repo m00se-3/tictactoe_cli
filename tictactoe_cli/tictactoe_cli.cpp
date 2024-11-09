@@ -3,8 +3,12 @@
 
 #include "tictactoe_cli.hpp"
 
+#include <iostream>
+
 void Board::draw() {
-	system(COMMAND);
+
+	// Use ANSI escape codes to clear the terminal.
+	std::cout << "\033[J\033[H";
 	std::cout << board << "\n\n";
 }
 
@@ -121,7 +125,7 @@ int Board::convertCoord(int x, int y) {
 	return ny * boardWidth + nx;
 }
 
-int main(int argc, const char** argv)
+void runGame(int argc, const char** argv)
 {
 	Board board;
 	int playerTurn = -1;
@@ -189,12 +193,12 @@ int main(int argc, const char** argv)
 			continue;
 		}
 
-		if (!(cx < 3 && cx > -1)) {
+		if (cx > 2 || cx < 0) {
 			errorMsg = "X coordinate is invalid.";
 			continue;
 		}
 
-		if (!(cy < 3 && cy > -1)) {
+		if (cy > 2 || cy < 0) {
 			errorMsg = "Y coordinate is invalid.";
 			continue;
 		}
@@ -210,6 +214,11 @@ int main(int argc, const char** argv)
 	board.draw();
 
 	std::cout << board.getPlayer(playerTurn).name << " wins!\n";
+}
+
+int main(int argc, const char** argv)
+{
+	runGame(argc, argv);
 	
 	return 0;
 }
