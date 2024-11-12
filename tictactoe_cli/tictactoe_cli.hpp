@@ -2,6 +2,7 @@
 #define TICTACTOE_H
 
 #include <string>
+#include <array>
 
 struct Player {
 	std::string name;
@@ -10,7 +11,15 @@ struct Player {
 
 class Board {
 
-	const int boardWidth = 9;
+public:
+	void draw();
+	Player& getPlayer(uint32_t num);
+	bool checkValidMove(uint32_t x, uint32_t y, uint32_t play);
+	bool checkGameResult();
+	[[nodiscard]] uint32_t convertCoord(uint32_t x, uint32_t y) const;
+
+private:
+	uint32_t boardWidth = std::string_view{"(  0 1 2 "}.size();
 	std::string board = 
 R"(  0 1 2 
 0  | |  
@@ -19,21 +28,10 @@ R"(  0 1 2
  -------
 2  | |  )";
 
-	Player players[2] = {
-		Player{ "Player 1", 'x' },
-		Player{ "Player 2", 'o' }
+	std::array<Player, 2uz> players =  {
+		Player{ .name="Player 1", .character='x' },
+		Player{ .name="Player 2", .character='o' }
 	};
-
-public:
-	Board() = default;
-	~Board() = default;
-
-	void draw();
-	Player& getPlayer(int num);
-	bool checkValidMove(int x, int y, int play);
-	bool checkGameResult();
-	int convertCoord(int x, int y);
-
 };
 
 void runGame(int argc, const char** argv);
