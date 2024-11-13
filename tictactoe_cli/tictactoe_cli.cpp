@@ -1,60 +1,31 @@
 ﻿// tictactoe_cli.cpp : Defines the entry point for the application.
 //
 
-#include "tictactoe_cli.hpp"
+#include <tictactoe_cli.hpp>
 
 #include <cerrno>
 #include <iostream>
-#include <span>
+#include <ranges>
 
-void Board::draw() {
+void Board::draw() const {
 
 	// Use ANSI escape codes to clear the terminal.
-	std::cout << "\033[J\033[H";
+	std::cout << "\033[2J\033[H";
 	std::cout << board << "\n\n";
 }
 
-Player& Board::getPlayer(uint32_t num) { return players.at(num); }
-
-bool Board::checkValidMove(uint32_t x, uint32_t y, uint32_t play) {
-	bool valid = false;
-
-	//Is that location empty?
-	if (board[convertCoord(x, y)] == ' ') {
-		board[convertCoord(x, y)] = players.at(play).character;
-		valid = true;
-	}
-	
-	return valid;
-}
-
-bool Board::checkGameResult() {
+bool Board::checkGameResult(char play) const {
 	int count = 0; //Number of consecutive characters found.
-	char checker = ' ';
 
 	/*
 		Check vertically.
 	*/
 	for (auto x = 0u; x < 3u; ++x) {
 		for (auto y = 0u; y < 3u; ++y) {
-			if (board[convertCoord(x, y)] != ' ') {
-				if (checker == ' ') {
-					checker = board[convertCoord(x, y)];
-					count++;
-				}
-				else {
-					if (board[convertCoord(x, y)] == checker) {
-						count++;
-					}
-					else {
-						checker = ' ';
-						count = 0;
-						break;
-					}
-				}
+			if (board[convertCoord(x, y)] == play) {
+				++count;
 			}
 			else {
-				checker = ' ';
 				count = 0;
 				break;
 			}
@@ -63,7 +34,6 @@ bool Board::checkGameResult() {
 		if (count == 3) {
 			return true;
 		}
-		checker = ' ';
 		count = 0;
 	}
 
@@ -72,24 +42,10 @@ bool Board::checkGameResult() {
 	*/
 	for (auto y = 0u; y < 3u; ++y) {
 		for (auto x = 0u; x < 3u; ++x) {
-			if (board[convertCoord(x, y)] != ' ') {
-				if (checker == ' ') {
-					checker = board[convertCoord(x, y)];
-					count++;
-				}
-				else {
-					if (board[convertCoord(x, y)] == checker) {
-						count++;
-					}
-					else {
-						checker = ' ';
-						count = 0;
-						break;
-					}
-				}
+			if (board[convertCoord(x, y)] == play) {
+				++count;
 			}
 			else {
-				checker = ' ';
 				count = 0;
 				break;
 			}
@@ -98,7 +54,6 @@ bool Board::checkGameResult() {
 		if (count == 3) {
 			return true;
 		}
-		checker = ' ';
 		count = 0;
 	}
 
@@ -109,57 +64,40 @@ bool Board::checkGameResult() {
 		(board[convertCoord(2, 0)] != ' ' && board[convertCoord(2, 0)] == board[convertCoord(1, 1)] && board[convertCoord(2, 0)] == board[convertCoord(0, 2)]);
 }
 
-uint32_t Board::convertCoord(uint32_t x, uint32_t y) const {
-	//Convert the given input coordinates to coordinates in the grid.
-	uint32_t nx = 2u + (2u * x);
-	uint32_t ny = 1u + (2u * y);
+void Board::parseArguments(std::span<const char*> args) {
+	std::string_view str{};
 
-	return (ny * boardWidth) + nx;
+	for(const std::string_view arg : std::ranges::drop_view{ args, 1u }) {
+		if(str.empty() && (arg == "--player1" || arg == "--player2")) {
+			str = arg;
+			continue;
+		}
+
+		if(str == "--player1") {
+			players.at(0u).name = arg;
+		}
+		else if (str == "--player2") {
+			players.at(1u).name = arg;
+		}
+
+		str = std::string_view{};
+	}
 }
 
-void runGame(int argc, const char** argv)
-{
+void runGame(int argc, const char** argv) {
 	Board board;
-	auto playerTurn = 1u;
-	bool gameOver = false;
+	auto playerTurn = 0u;
 	std::string errorMsg;
 
-	if(argc > 1)
-	{
-		std::string_view str{};
-		auto args = std::span<const char*>{argv, static_cast<size_t>(argc)};
-
-		for(const std::string_view arg : args)
-		{
-			if(str.empty() && (arg == "--player1" || arg == "--player2"))
-			{
-				str = arg;
-				continue;
-			}
-
-			if(str == "--player1")
-			{
-				board.getPlayer(0u).name = arg;
-			}
-			else if (str == "--player2")
-			{
-				board.getPlayer(1).name = arg;
-			}
-
-			str = std::string_view{};
-		}
+	if(argc > 1) {
+		board.parseArguments(std::span<const char*>{ argv, static_cast<size_t>(argc) });
 	}
 
-	while (!gameOver) {
+	while (true) {
 		std::string ix, iy;
 		int cx{}, cy{};
 
-		if (errorMsg.empty()) {
-			playerTurn++;
-			if (playerTurn > 1u) { playerTurn = 0u; }
-		}
-
-		auto& current = board.getPlayer(playerTurn);
+		const auto& current = board.getPlayer(playerTurn);
 		board.draw();
 
 		if (!errorMsg.empty()) {
@@ -175,14 +113,11 @@ void runGame(int argc, const char** argv)
 
 		constexpr auto base10 = 10;
 
-		try {
-			cx = std::strtol(ix.c_str(), nullptr, base10);
-			cy = std::strtol(iy.c_str(), nullptr, base10);
+		cx = std::strtol(ix.c_str(), nullptr, base10);
+		cy = std::strtol(iy.c_str(), nullptr, base10);
 
-			if(errno == ERANGE) { throw std::exception{}; }
-		}
-		catch (const std::exception&) {
-			errorMsg = "Invalid input!";
+		if(errno == ERANGE) { 
+			errorMsg = "Invalid input.";
 			continue;
 		}
 
@@ -196,22 +131,20 @@ void runGame(int argc, const char** argv)
 			continue;
 		}
 
-		if (!board.checkValidMove(static_cast<uint32_t>(cx), static_cast<uint32_t>(cy), playerTurn)) {
+		if (!board.checkValidMove(static_cast<uint32_t>(cx), static_cast<uint32_t>(cy))) {
 			errorMsg = "The space you selected is already filled.";
 			continue;
 		}
 
-		gameOver = board.checkGameResult();
+		board.makeMove(static_cast<uint32_t>(cx), static_cast<uint32_t>(cy), current.character);
+		
+		if(board.checkGameResult(current.character)) { break; }
+
+		playerTurn++;
+		if (playerTurn > 1u) { playerTurn = 0u; }
 	}
 
 	board.draw();
 
 	std::cout << board.getPlayer(playerTurn).name << " wins!\n";
-}
-
-int main(int argc, const char** argv)
-{
-	runGame(argc, argv);
-	
-	return 0;
 }

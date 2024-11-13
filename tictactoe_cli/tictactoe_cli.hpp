@@ -3,6 +3,7 @@
 
 #include <string>
 #include <array>
+#include <span>
 
 struct Player {
 	std::string name;
@@ -12,11 +13,29 @@ struct Player {
 class Board {
 
 public:
-	void draw();
-	Player& getPlayer(uint32_t num);
-	bool checkValidMove(uint32_t x, uint32_t y, uint32_t play);
-	bool checkGameResult();
-	[[nodiscard]] uint32_t convertCoord(uint32_t x, uint32_t y) const;
+	void draw() const;
+	[[nodiscard]] bool checkGameResult(char play) const;
+	void parseArguments(std::span<const char*> args);
+
+	constexpr void makeMove(uint32_t x, uint32_t y, char play) { board[convertCoord(x, y)] = play; }
+	[[nodiscard]] constexpr Player& getPlayer(uint32_t num) { return players.at(num); }
+	[[nodiscard]] constexpr bool checkValidMove(uint32_t x, uint32_t y) const { return board[convertCoord(x, y)] == ' '; }
+	
+	/**
+	 * @brief Transform the world coordinates supplied to the function into an index into the board string.
+	 * 
+	 *	The formulas for converting are crafted for the exact string the program uses and will yield one of the 9 spots on the game grid.
+	 *
+	 * @param x 
+	 * @param y 
+	 * @return constexpr uint32_t 
+	 */
+	[[nodiscard]] constexpr uint32_t convertCoord(uint32_t x, uint32_t y) const {
+		const uint32_t nx = 2u + (2u * x);
+		const uint32_t ny = 1u + (2u * y);
+
+		return (ny * boardWidth) + nx;
+	}
 
 private:
 	uint32_t boardWidth = std::string_view{"(  0 1 2 "}.size();
