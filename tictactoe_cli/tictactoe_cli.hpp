@@ -16,6 +16,7 @@ public:
 	void draw() const;
 	[[nodiscard]] bool checkGameResult(char play) const;
 	void parseArguments(std::span<const char*> args);
+	[[nodiscard]] static bool checkArgument(std::string_view arg);
 
 	constexpr void makeMove(uint32_t x, uint32_t y, char play) { board[convertCoord(x, y)] = play; }
 	[[nodiscard]] constexpr Player& getPlayer(uint32_t num) { return players.at(num); }

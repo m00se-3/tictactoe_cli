@@ -1,11 +1,16 @@
 ﻿// tictactoe_cli.cpp : Defines the entry point for the application.
 //
 
+#include <ctll/fixed_string.hpp>
 #include <tictactoe_cli.hpp>
 
 #include <cerrno>
 #include <iostream>
 #include <ranges>
+
+#include <ctre.hpp>
+
+static constexpr auto sanitizerPattern = ctll::fixed_string{ "[\\?{};&<>$:/~*@()'`^#]" };
 
 void Board::draw() const {
 
@@ -73,6 +78,11 @@ void Board::parseArguments(std::span<const char*> args) {
 			continue;
 		}
 
+		if(checkArgument(arg)) {
+			std::cout << "Invalid value for option: " << str;
+			std::exit(EXIT_FAILURE);
+		}
+
 		if(str == "--player1") {
 			players.at(0u).name = arg;
 		}
@@ -82,6 +92,10 @@ void Board::parseArguments(std::span<const char*> args) {
 
 		str = std::string_view{};
 	}
+}
+
+bool Board::checkArgument(std::string_view arg) {
+	return ctre::search<sanitizerPattern>(arg);
 }
 
 void runGame(int argc, const char** argv) {
@@ -108,8 +122,18 @@ void runGame(int argc, const char** argv) {
 		std::cout << current.name << ", select the X coordinate: ";
 		std::cin >> ix;
 
+		if(Board::checkArgument(ix)) {
+			errorMsg = "Invalid input.";
+			continue;
+		}
+
 		std::cout << current.name << ", select the Y corrdinate: ";
 		std::cin >> iy;
+
+		if(Board::checkArgument(iy)) {
+			errorMsg = "Invalid input.";
+			continue;
+		}
 
 		constexpr auto base10 = 10;
 
