@@ -13,6 +13,7 @@
 build/**
 .vs/**
 compile_commands.json
+CMakeUserPresets.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

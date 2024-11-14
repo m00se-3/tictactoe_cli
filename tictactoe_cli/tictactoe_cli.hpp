@@ -2,6 +2,7 @@
 #define TICTACTOE_H
 
 #include <string>
+#include <cstdint>
 #include <array>
 #include <span>
 
@@ -39,7 +40,7 @@ public:
 	}
 
 private:
-	uint32_t boardWidth = std::string_view{"(  0 1 2 "}.size();
+	std::uint32_t boardWidth = std::string_view{"(  0 1 2 "}.size();
 	std::string board = 
 R"(  0 1 2 
 0  | |  

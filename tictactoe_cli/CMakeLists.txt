@@ -1,17 +1,16 @@
-﻿# Add source to this project's executable.
-add_executable (tictactoe_cli)
+﻿add_executable (tictactoe_cli)
 
 target_compile_features(tictactoe_cli PUBLIC cxx_std_23)
 target_compile_options(tictactoe_cli PRIVATE ${CompilerFlags})
 target_link_options(tictactoe_cli PRIVATE ${LinkerFlags})
 
 if(clang_tidy_FOUND)
-    message("--- Using Clang Tidy")
-    set_target_properties(tictactoe_cli PROPERTIES CXX_CLANG_TIDY ${clang_tidy_FOUND})
+    message("-- Using clang-tidy")
+    set_target_properties(tictactoe_cli PROPERTIES CXX_CLANG_TIDY "${clang_tidy_FOUND}")
 endif()
 
 if(cppcheck_FOUND)
-    message("--- Using CppCheck")
+    message("-- Using cppcheck")
     set_target_properties(tictactoe_cli PROPERTIES CXX_CPPCHECK "${cppckeck_FOUND}")
 endif()
 

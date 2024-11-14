@@ -9,7 +9,8 @@ include("cmake/Config.cmake")
 include("CPM.cmake")
 
 if(ccache_FOUND)
-    set(CMAKE_CXX_COMPILER_LAUNCHER ${ccache_FOUND})
+    message("-- Using ccache")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${ccache_FOUND}")
     set(CPM_SOURCE_CACHE ${CMAKE_CURRENT_LIST_DIR}/.cache/CPM)
 endif()
 

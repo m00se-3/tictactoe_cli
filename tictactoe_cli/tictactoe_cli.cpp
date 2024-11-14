@@ -109,7 +109,7 @@ void runGame(int argc, const char** argv) {
 
 	while (true) {
 		std::string ix, iy;
-		int cx{}, cy{};
+		long cx{}, cy{};
 
 		const auto& current = board.getPlayer(playerTurn);
 		board.draw();
