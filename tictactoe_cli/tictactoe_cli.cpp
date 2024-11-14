@@ -10,7 +10,7 @@
 
 #include <ctre.hpp>
 
-static constexpr auto sanitizerPattern = ctll::fixed_string{ "[\\?{};&<>$:/~*@()'`^#]" };
+static constexpr auto sanitizerPattern = ctll::fixed_string{ "[\\?{};&<>$%:/~*@()'`^#]" };
 
 void Board::draw() const {
 
