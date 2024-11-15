@@ -25,16 +25,3 @@ list(
     "/DYNAMICBASE"
     "/HIGHENTROPYVA"
 )
-
-# Enable sanitizers if chosen
-
-if(ENABLE_SANITIZER)
-
-string(CONCAT sanitizers "/fsanitize=" ${ENABLE_SANITIZER})
-
-    list(
-            APPEND CompilerFlags
-
-            ${sanitizers}
-        )
-endif()
