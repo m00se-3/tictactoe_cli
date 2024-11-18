@@ -21,5 +21,3 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES MSVC)
 else()
 	include(${CMAKE_CURRENT_LIST_DIR}/GNUOptions.cmake)
 endif()
-
-include(${CMAKE_CURRENT_LIST_DIR}/UnitTests.cmake)

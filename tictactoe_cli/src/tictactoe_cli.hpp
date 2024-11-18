@@ -15,6 +15,7 @@ class Board {
 
 public:
 	void draw() const;
+	void run(std::basic_istream<char>* iStream);
 	[[nodiscard]] bool checkGameResult(char play) const;
 	void parseArguments(std::span<const char*> args);
 	[[nodiscard]] static bool checkArgument(std::string_view arg);

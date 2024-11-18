@@ -1,7 +1,5 @@
-﻿// tictactoe_cli.cpp : Defines the entry point for the application.
-//
-
-#include <ctll/fixed_string.hpp>
+﻿#include <ctll/fixed_string.hpp>
+#include <string>
 #include <tictactoe_cli.hpp>
 
 #include <cerrno>
@@ -11,6 +9,10 @@
 #include <ctre.hpp>
 
 static constexpr auto sanitizerPattern = ctll::fixed_string{ "[\\?{};&<>$%:/~*@()'`^#]" };
+
+#ifdef FUZZING
+static constexpr auto maxInputAttempts = 32u;
+#endif
 
 void Board::draw() const {
 
@@ -98,21 +100,23 @@ bool Board::checkArgument(std::string_view arg) {
 	return ctre::search<sanitizerPattern>(arg);
 }
 
-void runGame(int argc, const char** argv) {
-	Board board;
+void Board::run(std::basic_istream<char>* iStream) {
 	auto playerTurn = 0u;
 	std::string errorMsg;
-
-	if(argc > 1) {
-		board.parseArguments(std::span<const char*>{ argv, static_cast<size_t>(argc) });
-	}
-
-	while (true) {
+	#ifdef FUZZING
+	auto attempts = 0u;
+	
+	while (attempts < maxInputAttempts) {
+		++attempts;
+	#else
+	
+	while(true) {
+	#endif
 		std::string ix, iy;
 		long cx{}, cy{};
 
-		const auto& current = board.getPlayer(playerTurn);
-		board.draw();
+		const auto& current = getPlayer(playerTurn);
+		draw();
 
 		if (!errorMsg.empty()) {
 			std::cout << errorMsg << "\n";
@@ -120,7 +124,7 @@ void runGame(int argc, const char** argv) {
 		}
 
 		std::cout << current.name << ", select the X coordinate: ";
-		std::cin >> ix;
+		std::getline(*iStream, ix, '\n');
 
 		if(Board::checkArgument(ix)) {
 			errorMsg = "Invalid input.";
@@ -128,7 +132,7 @@ void runGame(int argc, const char** argv) {
 		}
 
 		std::cout << current.name << ", select the Y corrdinate: ";
-		std::cin >> iy;
+		std::getline(*iStream, iy, '\n');
 
 		if(Board::checkArgument(iy)) {
 			errorMsg = "Invalid input.";
@@ -155,20 +159,38 @@ void runGame(int argc, const char** argv) {
 			continue;
 		}
 
-		if (!board.checkValidMove(static_cast<uint32_t>(cx), static_cast<uint32_t>(cy))) {
+		if (!checkValidMove(static_cast<uint32_t>(cx), static_cast<uint32_t>(cy))) {
 			errorMsg = "The space you selected is already filled.";
 			continue;
 		}
 
-		board.makeMove(static_cast<uint32_t>(cx), static_cast<uint32_t>(cy), current.character);
+		makeMove(static_cast<uint32_t>(cx), static_cast<uint32_t>(cy), current.character);
 		
-		if(board.checkGameResult(current.character)) { break; }
+		if(checkGameResult(current.character)) { break; }
 
 		playerTurn++;
 		if (playerTurn > 1u) { playerTurn = 0u; }
 	}
 
-	board.draw();
+	draw();
 
-	std::cout << board.getPlayer(playerTurn).name << " wins!\n";
+	#ifdef FUZZING
+	if(attempts == maxInputAttempts) {
+		std::cout << "Maximum attempts reached, this limit is intended for testing purposes.\n";
+	} else {
+		std::cout << getPlayer(playerTurn).name << " wins!\n";
+	}
+	#else
+	std::cout << getPlayer(playerTurn).name << " wins!\n";
+	#endif
+}
+
+void runGame(int argc, const char** argv) {
+	Board board;
+
+	if(argc > 1) {
+		board.parseArguments(std::span<const char*>{ argv, static_cast<size_t>(argc) });
+	}
+
+	board.run(&std::cin);
 }

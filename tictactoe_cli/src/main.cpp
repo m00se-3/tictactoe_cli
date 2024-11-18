@@ -2,6 +2,4 @@
 
 int main(int argc, const char** argv) {
 	runGame(argc, argv);
-	
-	return 0;
 }
