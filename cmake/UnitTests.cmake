@@ -4,7 +4,7 @@ fuzztest_setup_fuzzing_flags()
 
 add_executable(fuzz_test_exec)
 
-target_compile_features(fuzz_test_exec PUBLIC cxx_std_23)
+target_compile_features(fuzz_test_exec PUBLIC cxx_std_20)
 target_compile_options(fuzz_test_exec PRIVATE ${CompilerFlags} "-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION" "-UNDEBUG")
 target_link_options(fuzz_test_exec PRIVATE ${LinkerFlags})
 

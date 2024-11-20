@@ -47,10 +47,10 @@ R"(  0 1 2
 0  | |  
  -------
 1  | |  
- -------
+ -------W
 2  | |  )";
 
-	std::array<Player, 2uz> players =  {
+	std::array<Player, 2ull> players =  {
 		Player{ .name="Player 1", .character='x' },
 		Player{ .name="Player 2", .character='o' }
 	};

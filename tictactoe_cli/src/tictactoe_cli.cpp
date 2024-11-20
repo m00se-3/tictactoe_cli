@@ -1,11 +1,11 @@
-﻿#include <ctll/fixed_string.hpp>
-#include <string>
-#include <tictactoe_cli.hpp>
+﻿#include <tictactoe_cli.hpp>
 
+#include <string>
 #include <cerrno>
 #include <iostream>
 #include <ranges>
 
+#include <ctll/fixed_string.hpp>
 #include <ctre.hpp>
 
 static constexpr auto sanitizerPattern = ctll::fixed_string{ "[\\?{};&<>$%:/~*@()'`^#]" };
