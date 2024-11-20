@@ -14,7 +14,7 @@ if(clang_tidy_FOUND)
 endif()
 
 if(cppcheck_FOUND)
-    set_target_properties(fuzz_test_exec PROPERTIES CXX_CPPCHECK "${cppckeck_FOUND}")
+    set_target_properties(fuzz_test_exec PROPERTIES CXX_CPPCHECK "${cppckeck_FOUND} --project=compile_commands.json")
 endif()
 
 target_link_libraries(
