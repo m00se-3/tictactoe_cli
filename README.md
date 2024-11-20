@@ -5,7 +5,7 @@ The master branch currently contains a working but totally unsafe program that i
 seems to work well, doesn't it?
 
 This program is full of vulnerabilities and anti-patterns. Many of the big ones are listed below, but I'm sure others can find more.
-If you would like to see what this program should look like following best practices, see the *production* branch.
+If you would like to see what this program would look like following best practices, see the *production* branch. The *production* branch also includes the build instructions.
 
 ## Vulnerabilities
 
