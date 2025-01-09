@@ -59,6 +59,8 @@ The final step is to build and run your project using the following commands.
 
 `./tictactoe_cli [optional arguments]`
 
+If you wish to use sanitizers, set the appropriate flag to CMAKE_CXX_FLAGS.
+
 Then enjoy the game!
 
 ## Arguments
@@ -71,3 +73,7 @@ The game supports the following arguments:
 ## Fuzz Testing
 
 For those who are curious, you can build this project with fuzz testing as described above. The executable will appear in your `build/<your preset>` directory.
+
+Run the provided test with the following command:
+
+`./fuzz_test_exec --fuzz=MyGameTest.testGameLogic`
