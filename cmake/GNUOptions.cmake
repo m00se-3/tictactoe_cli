@@ -9,7 +9,7 @@ elseif(${CMAKE_BUILD_TYPE} MATCHES RelWithDebInfo)
     list(
         APPEND CompilerFlags 
         "-g"
-        "-02"
+        "-o2"
         "-U_FORTIFY_SOURCE"
         "-D_FORTIFY_SOURCE=3"
         "-D_GLIBCXX_ASSERTIONS"
@@ -17,7 +17,7 @@ elseif(${CMAKE_BUILD_TYPE} MATCHES RelWithDebInfo)
 else()
     list(
         APPEND CompilerFlags 
-        "-02"
+        "-o3"
         "-U_FORTIFY_SOURCE"
         "-D_FORTIFY_SOURCE=2"
     )
@@ -58,26 +58,26 @@ list(
 
 	"-Wall" 
 	"-Wextra" 
-    "-Wformat"
-    "-Wformat=2"
-    "-Wimplicit-fallthrough"
-    "-Werror=format-security"
-    "-Werror=implicit"
-    "-Werror=incompatible-pointer-types"
-    "-Werror=int-conversion"
+	"-Wformat"
+	"-Wformat=2"
+	"-Wimplicit-fallthrough"
+	"-Werror=format-security"
+	"-Werror=implicit"
+	"-Werror=incompatible-pointer-types"
+	"-Werror=int-conversion"
 	"-Wpedantic" 
 	"-Wno-newline-eof" 
 	"-Wno-c++98-compat" 
 	"-Wno-c++98-compat-pedantic"
 	"-Wconversion"
-    "-Wsign-conversion"
+	"-Wsign-conversion"
 
-    "-fstrict-flex-arrays=3"
-    "-fcf-protection=full"
-    "-fno-strict-overflow"
-    "-fno-strict-aliasing"
-    "-ftrivial-auto-var-init=zero"
-    "-fexceptions"
+	"-fstrict-flex-arrays=3"
+	"-fcf-protection=full"
+	"-fno-strict-overflow"
+	"-fno-strict-aliasing"
+	"-ftrivial-auto-var-init=zero"
+	"-fexceptions"
 )
 
 list(

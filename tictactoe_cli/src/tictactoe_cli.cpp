@@ -21,7 +21,7 @@ void Board::draw() const {
 	std::cout << board << "\n\n";
 }
 
-bool Board::checkGameResult(char play) const {
+bool Board::checkGameResult(const char play) const {
 	int count = 0; //Number of consecutive characters found.
 
 	/*
